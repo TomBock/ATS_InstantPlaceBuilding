@@ -21,5 +21,21 @@ namespace PlaceBuildingsInstantly
             harmony = Harmony.CreateAndPatchAll(typeof(Plugin));  
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
         }
+        
+        [HarmonyPatch(typeof(Building), "PlaceBuilding")]
+        [HarmonyPostfix]
+        private static void HookPlaceBuilding(Building __instance)
+        {
+            if (!Keyboard.current.ctrlKey.isPressed)
+                return;
+
+            Plugin.Log.LogInfo($"Skippping construction process for building {__instance}");
+            
+            _ = new BuildingCreator().CreateCompletedBuilding(
+                __instance.BuildingModel,
+                __instance.BuildingState.field, 
+                __instance.BuildingState.rotation);
+            __instance.Remove(false);
+        }
     }
 }
