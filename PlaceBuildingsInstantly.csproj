@@ -342,10 +342,14 @@
   <Target Name="Deploy" AfterTargets="Build">
 		<ItemGroup>
 			<Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
-      <Assets Include="$(OutputPath)\assets\*.*" />
+      		<Assets Include="$(OutputPath)\assets\*.*" />
 		</ItemGroup>
 
 		<Copy SourceFiles="@(Assembly)" DestinationFolder="$(BepInExPath)\BepInEx\plugins" />
-    <Copy SourceFiles="@(Assets)" DestinationFolder="$(BepInExPath)\BepInEx\plugins\assets\" />
+    	<Copy SourceFiles="@(Assets)" DestinationFolder="$(BepInExPath)\BepInEx\plugins\assets\" />
+		
+	  <!-- Copying for Thunderstore Mod Manager -->
+	  <Copy SourceFiles="@(Assembly)" DestinationFolder="$(MSBuildProjectDirectory)\build\" />
+	  <Copy SourceFiles="$(MSBuildProjectDirectory)\Readme.md" DestinationFolder="$(MSBuildProjectDirectory)\build\" />
   </Target>
 </Project>
